@@ -3,7 +3,7 @@ description: An open-source Matrix homeserver implementation that provides decen
 image: https://matrix.org/images/matrix-logo.svg
 url: https://matrix-org.github.io/synapse/
 created: '2024-01-01'
-modified: '2024-01-01'
+modified: '2026-03-16'
 apis:
 - name: Synapse Client-Server API
   description: RESTful API for client applications to interact with the Matrix homeserver, enabling messaging, room management, user authentication, and real-time events.
