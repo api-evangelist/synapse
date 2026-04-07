@@ -5,91 +5,91 @@ url: https://matrix-org.github.io/synapse/
 created: '2024-01-01'
 modified: '2026-03-16'
 apis:
-- name: Synapse Client-Server API
-  description: RESTful API for client applications to interact with the Matrix homeserver, enabling messaging, room management, user authentication, and real-time events.
-  image: https://matrix.org/images/matrix-logo.svg
-  humanURL: https://spec.matrix.org/latest/client-server-api/
-  baseURL: https://matrix.example.com/_matrix/client
-  tags:
-  - messaging
-  - chat
-  - real-time
-  - collaboration
-  properties:
-  - type: Documentation
-    url: https://spec.matrix.org/latest/client-server-api/
-  - type: OpenAPI
-    url: https://github.com/matrix-org/matrix-spec/tree/main/data/api/client-server
-  contact:
-  - FN: Matrix.org Team
-    email: support@matrix.org
-    url: https://matrix.org/support/
-- name: Synapse Server-Server API
-  description: Federation API allowing different Matrix homeservers to communicate with each other, enabling decentralized messaging across servers.
-  image: https://matrix.org/images/matrix-logo.svg
-  humanURL: https://spec.matrix.org/latest/server-server-api/
-  baseURL: https://matrix.example.com/_matrix/federation
-  tags:
-  - federation
-  - server-to-server
-  - decentralized
-  properties:
-  - type: Documentation
-    url: https://spec.matrix.org/latest/server-server-api/
-  - type: OpenAPI
-    url: https://github.com/matrix-org/matrix-spec/tree/main/data/api/server-server
-- name: Synapse Admin API
-  description: Administrative API for managing the Synapse homeserver, including user management, room administration, server configuration, and monitoring.
-  image: https://matrix.org/images/matrix-logo.svg
-  humanURL: https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/
-  baseURL: https://matrix.example.com/_synapse/admin
-  tags:
-  - administration
-  - management
-  - monitoring
-  properties:
-  - type: Documentation
-    url: https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/
-  - type: GitHub
-    url: https://github.com/matrix-org/synapse/tree/develop/docs/admin_api
-- name: Synapse Application Service API
-  description: API for integrating application services (bridges and bots) with the Matrix homeserver.
-  image: https://matrix.org/images/matrix-logo.svg
-  humanURL: https://spec.matrix.org/latest/application-service-api/
-  baseURL: https://matrix.example.com/_matrix/app
-  tags:
-  - application-services
-  - bridges
-  - bots
-  - integration
-  properties:
-  - type: Documentation
-    url: https://spec.matrix.org/latest/application-service-api/
+  - name: Synapse Client-Server API
+    description: RESTful API for client applications to interact with the Matrix homeserver, enabling messaging, room management, user authentication, and real-time events.
+    image: https://matrix.org/images/matrix-logo.svg
+    humanURL: https://spec.matrix.org/latest/client-server-api/
+    baseURL: https://matrix.example.com/_matrix/client
+    tags:
+      - Chat
+      - Collaboration
+      - Messaging
+      - Real-Time
+    properties:
+      - type: Documentation
+        url: https://spec.matrix.org/latest/client-server-api/
+      - type: OpenAPI
+        url: https://github.com/matrix-org/matrix-spec/tree/main/data/api/client-server
+    contact:
+      - FN: Matrix.org Team
+        email: support@matrix.org
+        url: https://matrix.org/support/
+  - name: Synapse Server-Server API
+    description: Federation API allowing different Matrix homeservers to communicate with each other, enabling decentralized messaging across servers.
+    image: https://matrix.org/images/matrix-logo.svg
+    humanURL: https://spec.matrix.org/latest/server-server-api/
+    baseURL: https://matrix.example.com/_matrix/federation
+    tags:
+      - Decentralized
+      - Federation
+      - Server-To-Server
+    properties:
+      - type: Documentation
+        url: https://spec.matrix.org/latest/server-server-api/
+      - type: OpenAPI
+        url: https://github.com/matrix-org/matrix-spec/tree/main/data/api/server-server
+  - name: Synapse Admin API
+    description: Administrative API for managing the Synapse homeserver, including user management, room administration, server configuration, and monitoring.
+    image: https://matrix.org/images/matrix-logo.svg
+    humanURL: https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/
+    baseURL: https://matrix.example.com/_synapse/admin
+    tags:
+      - Administration
+      - Management
+      - Monitoring
+    properties:
+      - type: Documentation
+        url: https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/
+      - type: GitHub
+        url: https://github.com/matrix-org/synapse/tree/develop/docs/admin_api
+  - name: Synapse Application Service API
+    description: API for integrating application services (bridges and bots) with the Matrix homeserver.
+    image: https://matrix.org/images/matrix-logo.svg
+    humanURL: https://spec.matrix.org/latest/application-service-api/
+    baseURL: https://matrix.example.com/_matrix/app
+    tags:
+      - Application-Services
+      - Bots
+      - Bridges
+      - Integration
+    properties:
+      - type: Documentation
+        url: https://spec.matrix.org/latest/application-service-api/
 common:
-- type: GitHub
-  url: https://github.com/matrix-org/synapse
-- type: Documentation
-  url: https://matrix-org.github.io/synapse/latest/
-- type: Getting Started
-  url: https://matrix-org.github.io/synapse/latest/setup/installation.html
-- type: Authentication
-  url: https://matrix-org.github.io/synapse/latest/usage/configuration/config_documentation.html#authentication
-- type: Rate Limits
-  url: https://matrix-org.github.io/synapse/latest/usage/configuration/config_documentation.html#ratelimiting
-- type: Changelog
-  url: https://github.com/matrix-org/synapse/blob/develop/CHANGES.md
-- type: License
-  url: https://github.com/matrix-org/synapse/blob/develop/LICENSE
+  - type: GitHub
+    url: https://github.com/matrix-org/synapse
+  - type: Documentation
+    url: https://matrix-org.github.io/synapse/latest/
+  - type: Getting Started
+    url: https://matrix-org.github.io/synapse/latest/setup/installation.html
+  - type: Authentication
+    url: https://matrix-org.github.io/synapse/latest/usage/configuration/config_documentation.html#authentication
+  - type: Rate Limits
+    url: https://matrix-org.github.io/synapse/latest/usage/configuration/config_documentation.html#ratelimiting
+  - type: Changelog
+    url: https://github.com/matrix-org/synapse/blob/develop/CHANGES.md
+  - type: License
+    url: https://github.com/matrix-org/synapse/blob/develop/LICENSE
 maintainers:
-- FN: Matrix.org Foundation
-  email: support@matrix.org
-  url: https://matrix.org
+  - FN: Matrix.org Foundation
+    email: support@matrix.org
+    url: https://matrix.org
 tags:
-- messaging
-- chat
-- collaboration
-- decentralized
-- open-source
-- matrix
-- real-time
-- federation
+  - Chat
+  - Collaboration
+  - Decentralized
+  - Federation
+  - Matrix
+  - Messaging
+  - Open-Source
+  - Real-Time
