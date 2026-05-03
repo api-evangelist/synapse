@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/api-evangelist/synapse/blob/main/json-schema/synapse-user-schema.json",
+  "title": "Synapse User",
+  "description": "A Matrix user account on a Synapse homeserver",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^@[^:]+:.+$",
+      "description": "Fully qualified Matrix user ID (e.g. @user:example.com)"
+    },
+    "displayname": {
+      "type": "string",
+      "description": "User's display name"
+    },
+    "avatar_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "MXC URI for the user's avatar image"
+    },
+    "is_guest": {
+      "type": "boolean",
+      "description": "Whether this is a guest account"
+    },
+    "admin": {
+      "type": "boolean",
+      "description": "Whether the user has server admin privileges"
+    },
+    "deactivated": {
+      "type": "boolean",
+      "description": "Whether the account has been deactivated"
+    },
+    "erased": {
+      "type": "boolean",
+      "description": "Whether the user's data has been erased"
+    },
+    "shadow_banned": {
+      "type": "boolean",
+      "description": "Whether the user is shadow-banned (can send but others won't receive)"
+    },
+    "creation_ts": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Account creation timestamp in seconds since epoch"
+    },
+    "threepids": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "medium": {
+            "type": "string",
+            "enum": ["email", "msisdn"],
+            "description": "Type of third-party identifier"
+          },
+          "address": {
+            "type": "string",
+            "description": "The third-party identifier value (email address or phone number)"
+          }
+        }
+      },
+      "description": "Third-party identifiers (email addresses, phone numbers) linked to the account"
+    },
+    "external_ids": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "auth_provider": {
+            "type": "string",
+            "description": "The SSO provider ID"
+          },
+          "external_id": {
+            "type": "string",
+            "description": "The user's ID in the external provider"
+          }
+        }
+      },
+      "description": "External identity provider associations (SSO)"
+    },
+    "user_type": {
+      "type": "string",
+      "nullable": true,
+      "description": "User type (null for normal users, 'bot', 'support', etc.)"
+    }
+  },
+  "required": ["name"]
+}

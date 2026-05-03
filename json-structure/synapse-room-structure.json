@@ -1,0 +1,22 @@
+{
+  "name": "Synapse Room",
+  "description": "Structure documentation for a Matrix room as returned by the Synapse Admin API",
+  "fields": [
+    { "name": "room_id", "type": "string", "description": "Matrix room ID (e.g. !abc123:example.com)" },
+    { "name": "name", "type": "string", "description": "Room name" },
+    { "name": "canonical_alias", "type": "string|null", "description": "Primary room alias (e.g. #general:example.com)" },
+    { "name": "joined_members", "type": "integer", "description": "Total number of joined members (including remote)" },
+    { "name": "joined_local_members", "type": "integer", "description": "Number of local members on this homeserver" },
+    { "name": "version", "type": "string", "description": "Matrix room version (e.g. '10', '11')" },
+    { "name": "creator", "type": "string", "description": "Matrix user ID of the room creator" },
+    { "name": "encryption", "type": "string|null", "description": "Encryption algorithm in use (null if unencrypted)" },
+    { "name": "federatable", "type": "boolean", "description": "Whether the room is federated to other homeservers" },
+    { "name": "public", "type": "boolean", "description": "Whether the room is listed in the public room directory" },
+    { "name": "join_rules", "type": "string", "description": "Who can join: 'public', 'invite', 'knock', 'restricted'" },
+    { "name": "guest_access", "type": "string|null", "description": "Whether guests can join: 'can_join', 'forbidden'" },
+    { "name": "history_visibility", "type": "string", "description": "Message visibility for new members: 'world_readable', 'shared', 'invited', 'joined'" },
+    { "name": "state_events", "type": "integer", "description": "Number of state events in the room" },
+    { "name": "room_type", "type": "string|null", "description": "Room type (null=chat, 'm.space'=Space)" },
+    { "name": "forgotten", "type": "boolean", "description": "Whether all local users have forgotten the room" }
+  ]
+}

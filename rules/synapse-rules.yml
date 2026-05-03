@@ -1,0 +1,91 @@
+extends: spectral:oas
+rules:
+
+  synapse-operation-summary-title-case:
+    description: Operation summaries must use Title Case
+    message: "Summary '{{value}}' must use Title Case"
+    severity: warn
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][a-zA-Z0-9 ]*$"
+
+  synapse-operation-has-operation-id:
+    description: All operations must have an operationId
+    message: Operation is missing operationId
+    severity: error
+    given: "$.paths[*][get,post,put,delete,patch]"
+    then:
+      field: operationId
+      function: truthy
+
+  synapse-matrix-path-prefix:
+    description: Admin API paths should be prefixed with /v1/ or /v2/
+    message: "Path '{{property}}' should start with a version prefix (e.g. /v1/)"
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^\\/v[0-9]"
+
+  synapse-bearer-auth-required:
+    description: All Admin API operations require Bearer token authentication
+    message: Operation should reference BearerAuth security scheme
+    severity: warn
+    given: "$.paths[*][get,post,put,delete,patch]"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          anyOf:
+            - required: ["security"]
+            - type: object
+
+  synapse-error-response-defined:
+    description: Operations should define error responses
+    message: Operation is missing error response definitions
+    severity: warn
+    given: "$.paths[*][get,post,put,delete,patch].responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          anyOf:
+            - required: ["400"]
+            - required: ["401"]
+            - required: ["403"]
+            - required: ["404"]
+
+  synapse-matrix-user-id-format:
+    description: Matrix user IDs should follow @localpart:domain format
+    message: User ID parameters should document Matrix user ID format
+    severity: hint
+    given: "$.components.schemas.*.properties.name"
+    then:
+      field: description
+      function: truthy
+
+  synapse-pagination-token:
+    description: List operations should support pagination parameters
+    message: List operations should include limit and from pagination parameters
+    severity: hint
+    given: "$.paths[*][get].parameters[?(@.name == 'limit')]"
+    then:
+      field: schema
+      function: truthy
+
+  synapse-response-200-defined:
+    description: All operations must define a success response
+    message: Operation is missing a success response
+    severity: error
+    given: "$.paths[*][get,post,put,delete,patch].responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          anyOf:
+            - required: ["200"]
+            - required: ["201"]
+            - required: ["204"]

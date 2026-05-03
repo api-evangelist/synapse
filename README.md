@@ -1,90 +1,59 @@
-# Synapse (synapse)
-An open-source Matrix homeserver implementation that provides decentralized, secure communication services including real-time messaging, voice/video calls, and collaboration features.
+# Synapse
 
-**URL:** [Visit APIs.json URL](https://matrix-org.github.io/synapse/)
-
-## Tags:
-
- - messaging, chat, collaboration, decentralized, open-source, matrix, real-time, federation
-
-## Timestamps
-
-- **Created:** 2024-01-01 
-- **Modified:** 2024-01-01 
+Synapse is the reference Matrix homeserver implementation, written in Python and Rust. It powers decentralized, end-to-end encrypted real-time communication through the open Matrix standard. Originally developed by the Matrix.org Foundation, maintained by Element since version 1.99 under AGPL-3.0.
 
 ## APIs
 
-### Synapse Client-Server API
-RESTful API for client applications to interact with the Matrix homeserver, enabling messaging, room management, user authentication, and real-time events.
+| API | Description |
+|---|---|
+| [Synapse Client-Server API](https://spec.matrix.org/latest/client-server-api/) | RESTful API for Matrix clients: messaging, rooms, auth, sync |
+| [Synapse Server-Server API](https://spec.matrix.org/latest/server-server-api/) | Federation API for homeserver-to-homeserver communication |
+| [Synapse Admin API](https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/) | Administrative API for users, rooms, media, federation, stats |
+| [Synapse Application Service API](https://spec.matrix.org/latest/application-service-api/) | Bridge and bot integration with the homeserver |
 
-**Human URL:** [https://spec.matrix.org/latest/client-server-api/](https://spec.matrix.org/latest/client-server-api/)
+## OpenAPI Specifications
 
+| Spec | File |
+|---|---|
+| Synapse Admin API | [openapi/synapse-admin-api-openapi.yml](openapi/synapse-admin-api-openapi.yml) |
 
-#### Tags:
+## Capabilities
 
- - messaging, chat, real-time, collaboration
+### Shared Per-API Definitions
 
-#### Properties
+| Capability | Description |
+|---|---|
+| [Admin API](capabilities/shared/admin-api.yaml) | User management, rooms, registration tokens, server info |
 
-- [Documentation](https://spec.matrix.org/latest/client-server-api/)
-- [OpenAPI](https://github.com/matrix-org/matrix-spec/tree/main/data/api/client-server)
+### Workflow Capabilities
 
-### Synapse Server-Server API
-Federation API allowing different Matrix homeservers to communicate with each other, enabling decentralized messaging across servers.
+| Workflow | APIs | Description |
+|---|---|---|
+| [Homeserver Administration](capabilities/homeserver-administration.yaml) | Admin API | Full homeserver admin: users, rooms, tokens, federation, monitoring |
 
-**Human URL:** [https://spec.matrix.org/latest/server-server-api/](https://spec.matrix.org/latest/server-server-api/)
+## Artifacts
 
+| Type | Resource |
+|---|---|
+| Spectral Rules | [rules/synapse-rules.yml](rules/synapse-rules.yml) |
+| JSON Schema - User | [json-schema/synapse-user-schema.json](json-schema/synapse-user-schema.json) |
+| JSON Structure - Room | [json-structure/synapse-room-structure.json](json-structure/synapse-room-structure.json) |
+| JSON-LD Context | [json-ld/synapse-context.jsonld](json-ld/synapse-context.jsonld) |
+| Example - List Users | [examples/synapse-list-users-example.json](examples/synapse-list-users-example.json) |
+| Vocabulary | [vocabulary/synapse-vocabulary.yml](vocabulary/synapse-vocabulary.yml) |
 
-#### Tags:
+## Links
 
- - federation, server-to-server, decentralized
-
-#### Properties
-
-- [Documentation](https://spec.matrix.org/latest/server-server-api/)
-- [OpenAPI](https://github.com/matrix-org/matrix-spec/tree/main/data/api/server-server)
-
-### Synapse Admin API
-Administrative API for managing the Synapse homeserver, including user management, room administration, server configuration, and monitoring.
-
-**Human URL:** [https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/](https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/)
-
-
-#### Tags:
-
- - administration, management, monitoring
-
-#### Properties
-
-- [Documentation](https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/)
-- [GitHub](https://github.com/matrix-org/synapse/tree/develop/docs/admin_api)
-
-### Synapse Application Service API
-API for integrating application services (bridges and bots) with the Matrix homeserver.
-
-**Human URL:** [https://spec.matrix.org/latest/application-service-api/](https://spec.matrix.org/latest/application-service-api/)
-
-
-#### Tags:
-
- - application-services, bridges, bots, integration
-
-#### Properties
-
-- [Documentation](https://spec.matrix.org/latest/application-service-api/)
-
-## Common Properties
-
-- [GitHub](https://github.com/matrix-org/synapse)
-- [Documentation](https://matrix-org.github.io/synapse/latest/)
-- [Getting Started](https://matrix-org.github.io/synapse/latest/setup/installation.html)
-- [Authentication](https://matrix-org.github.io/synapse/latest/usage/configuration/config_documentation.html#authentication)
-- [Rate Limits](https://matrix-org.github.io/synapse/latest/usage/configuration/config_documentation.html#ratelimiting)
-- [Changelog](https://github.com/matrix-org/synapse/blob/develop/CHANGES.md)
-- [License](https://github.com/matrix-org/synapse/blob/develop/LICENSE)
+- **GitHub (Matrix.org)**: https://github.com/matrix-org/synapse
+- **GitHub (Element)**: https://github.com/element-hq/synapse
+- **Documentation**: https://matrix-org.github.io/synapse/latest/
+- **Admin API Docs**: https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/
+- **Matrix Spec**: https://spec.matrix.org/latest/
+- **Getting Started**: https://matrix-org.github.io/synapse/latest/setup/installation.html
+- **Docker**: https://hub.docker.com/r/matrixdotorg/synapse
+- **PyPI**: https://pypi.org/project/matrix-synapse/
+- **Changelog**: https://github.com/matrix-org/synapse/blob/develop/CHANGES.md
 
 ## Maintainers
 
-**FN:** Matrix.org Foundation
-
-**Email:** support@matrix.org
+**API Evangelist** | info@apievangelist.com

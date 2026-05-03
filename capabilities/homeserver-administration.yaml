@@ -1,0 +1,228 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: Synapse Homeserver Administration
+  description: >-
+    Workflow capability for administering a Synapse Matrix homeserver. Enables
+    server administrators to manage users, rooms, registration, federation, and
+    monitor server health through a unified REST and MCP interface backed by
+    the Synapse Admin API.
+  tags:
+    - Administration
+    - Federation
+    - Homeserver
+    - Matrix
+    - Synapse
+    - Users
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      SYNAPSE_ADMIN_TOKEN: SYNAPSE_ADMIN_TOKEN
+
+capability:
+  consumes:
+    - import: synapse-admin
+      location: ./shared/admin-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: synapse-homeserver-api
+      description: Unified REST API for Synapse homeserver administration.
+      resources:
+        - path: /v1/users
+          name: users
+          description: User account management
+          operations:
+            - method: GET
+              name: list-users
+              description: List all users on the homeserver
+              call: "synapse-admin.list-users"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-user
+              description: Create or modify a user account
+              call: "synapse-admin.upsert-user"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/users/{userId}
+          name: user
+          description: Individual user operations
+          operations:
+            - method: GET
+              name: get-user
+              description: Get user details
+              call: "synapse-admin.get-user"
+              with:
+                userId: "rest.userId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/rooms
+          name: rooms
+          description: Room administration
+          operations:
+            - method: GET
+              name: list-rooms
+              description: List all rooms on the homeserver
+              call: "synapse-admin.list-rooms"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/rooms/{roomId}/members
+          name: room-members
+          description: Room membership management
+          operations:
+            - method: GET
+              name: get-room-members
+              description: List all members of a room
+              call: "synapse-admin.get-room-members"
+              with:
+                roomId: "rest.roomId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/registration-tokens
+          name: registration-tokens
+          description: Registration token management
+          operations:
+            - method: GET
+              name: list-tokens
+              description: List registration tokens
+              call: "synapse-admin.list-registration-tokens"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-token
+              description: Create a new registration token
+              call: "synapse-admin.create-registration-token"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/server/version
+          name: server
+          description: Server information
+          operations:
+            - method: GET
+              name: get-version
+              description: Get Synapse server version
+              call: "synapse-admin.get-server-version"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: synapse-homeserver-mcp
+      transport: http
+      description: MCP server for AI-assisted Synapse homeserver administration.
+      tools:
+        - name: list-users
+          description: List all local users registered on the Synapse homeserver
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "synapse-admin.list-users"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-user
+          description: Get detailed information about a specific Matrix user
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "synapse-admin.get-user"
+          with:
+            userId: "tools.userId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-or-modify-user
+          description: Create a new user or modify an existing user account on the homeserver
+          hints:
+            readOnly: false
+            destructive: false
+          call: "synapse-admin.upsert-user"
+          with:
+            userId: "tools.userId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-rooms
+          description: List all rooms hosted on the Synapse homeserver with member counts
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "synapse-admin.list-rooms"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-room
+          description: Get detailed information about a specific Matrix room
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "synapse-admin.get-room"
+          with:
+            roomId: "tools.roomId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-room-members
+          description: List all members of a specific Matrix room
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "synapse-admin.get-room-members"
+          with:
+            roomId: "tools.roomId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-registration-token
+          description: Create a new registration token for controlled user sign-up
+          hints:
+            readOnly: false
+            destructive: false
+          call: "synapse-admin.create-registration-token"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-registration-tokens
+          description: List all registration tokens and their usage status
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "synapse-admin.list-registration-tokens"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-server-version
+          description: Get the current Synapse homeserver version and Python version
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "synapse-admin.get-server-version"
+          outputParameters:
+            - type: object
+              mapping: "$."

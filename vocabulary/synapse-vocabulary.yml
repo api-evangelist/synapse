@@ -1,0 +1,227 @@
+vocabulary:
+  provider: Synapse (Matrix Homeserver)
+  description: >-
+    Domain vocabulary for the Synapse Matrix homeserver and the Matrix
+    open standard for decentralized, secure real-time communication.
+  version: '1.0'
+  created: '2026-05-03'
+  modified: '2026-05-03'
+  tags:
+    - Collaboration
+    - Decentralized
+    - Matrix
+    - Messaging
+    - Open-Source
+
+  terms:
+
+    - term: Matrix
+      definition: >-
+        An open standard and communication protocol for real-time communication.
+        Matrix provides decentralized, encrypted communication through a network
+        of federated homeservers. The standard defines Client-Server,
+        Server-Server, Application Service, and Identity Service APIs.
+      category: Standard
+      tags:
+        - Decentralized
+        - Open-Source
+        - Protocol
+
+    - term: Homeserver
+      definition: >-
+        A server that hosts Matrix user accounts and rooms. Homeservers federate
+        with each other to form the Matrix network. Users are identified by their
+        homeserver domain in their Matrix ID (@user:homeserver.domain).
+      category: Infrastructure
+      tags:
+        - Federation
+        - Infrastructure
+        - Matrix
+
+    - term: Synapse
+      definition: >-
+        The reference Matrix homeserver implementation, written in Python and
+        Rust. Maintained by Element since version 1.99. The most widely deployed
+        Matrix homeserver with comprehensive support for the Matrix specification.
+      category: Software
+      tags:
+        - Matrix
+        - Open-Source
+        - Python
+
+    - term: Matrix User ID
+      definition: >-
+        A globally unique identifier for a Matrix user in the format
+        @localpart:domain (e.g. @alice:example.com). The localpart identifies
+        the user on their homeserver; the domain identifies the homeserver.
+      category: Identity
+      abbreviation: MXID
+      tags:
+        - Identity
+        - Users
+
+    - term: Room
+      definition: >-
+        The fundamental unit of communication in Matrix. A room is a shared,
+        persistent conversation that users can join. Rooms have IDs in the
+        format !opaque_id:domain.
+      category: Core Concept
+      tags:
+        - Messaging
+        - Rooms
+
+    - term: Space
+      definition: >-
+        A special type of Matrix room used to organize rooms and users into
+        hierarchical groups. Spaces act like folders, containing child rooms
+        and sub-spaces.
+      category: Core Concept
+      tags:
+        - Organization
+        - Rooms
+
+    - term: Event
+      definition: >-
+        The atomic unit of data in Matrix. Everything in a room is an event
+        (messages, joins, leaves, power level changes). Events are JSON objects
+        with a type, content, sender, and event ID.
+      category: Core Concept
+      tags:
+        - Matrix
+        - Protocol
+
+    - term: Room Version
+      definition: >-
+        The algorithm version used to compute state resolution and event
+        authorization in a room. Upgrading a room to a new version creates
+        a new room with the old room's history preserved.
+      category: Technical
+      tags:
+        - Matrix
+        - Rooms
+
+    - term: Federation
+      definition: >-
+        The process by which Matrix homeservers communicate with each other to
+        share room state and messages. Federation allows users on different
+        homeservers to join the same rooms and exchange messages.
+      category: Core Concept
+      tags:
+        - Decentralized
+        - Federation
+        - Protocol
+
+    - term: Application Service
+      definition: >-
+        A privileged server-side application that connects to the Matrix
+        homeserver via a special API. Application services can handle
+        namespaced user IDs and room aliases, enabling bridges to other
+        messaging platforms.
+      category: Developer
+      abbreviation: AS
+      tags:
+        - Bridges
+        - Developer
+        - Integration
+
+    - term: Bridge
+      definition: >-
+        A type of application service that connects Matrix to a third-party
+        messaging platform (e.g. IRC, Slack, Telegram, Discord). Bridges
+        allow Matrix users to interact with users on other platforms.
+      category: Integration
+      tags:
+        - Bridges
+        - Integration
+
+    - term: Admin API
+      definition: >-
+        Synapse-specific REST endpoints (under /_synapse/admin/) providing
+        server administration capabilities not defined in the Matrix
+        specification. Requires server admin access token.
+      category: Developer
+      tags:
+        - Administration
+        - API
+        - Synapse
+
+    - term: Access Token
+      definition: >-
+        A secret credential issued to authenticated users and bots that
+        authorizes API requests. Admin API requests require a token belonging
+        to a server admin account.
+      category: Security
+      tags:
+        - Authentication
+        - Security
+
+    - term: Registration Token
+      definition: >-
+        A secret string that controls who can register on a Synapse homeserver
+        when registration requires tokens. Tokens can have usage limits and
+        expiration times.
+      category: Security
+      tags:
+        - Registration
+        - Security
+
+    - term: MXC URI
+      definition: >-
+        Matrix Content URI, used to reference media files hosted on a Matrix
+        homeserver. Format: mxc://homeserver.domain/media_id. Used for avatars,
+        images, and other file attachments.
+      category: Technical
+      tags:
+        - Media
+        - Protocol
+
+    - term: Deactivated Account
+      definition: >-
+        A Matrix user account that has been disabled by an administrator.
+        Deactivated users cannot log in, and their presence is removed from
+        rooms. Optionally, the account data can be erased.
+      category: Administration
+      tags:
+        - Administration
+        - Users
+
+    - term: Shadow Ban
+      definition: >-
+        An administrative action that allows a user to continue sending
+        messages but prevents other users from receiving them. Used for
+        spam and abuse mitigation.
+      category: Administration
+      tags:
+        - Administration
+        - Moderation
+
+    - term: Purge History
+      definition: >-
+        An administrative operation to delete old events from a room's
+        history up to a specified point. Helps manage disk space on the
+        homeserver while preserving recent messages.
+      category: Administration
+      tags:
+        - Administration
+        - Storage
+
+    - term: State Events
+      definition: >-
+        Matrix events that represent the current state of a room (membership,
+        name, topic, power levels). State events have a state_key and only the
+        latest version for each type+key pair is retained.
+      category: Technical
+      tags:
+        - Matrix
+        - Rooms
+
+    - term: Power Level
+      definition: >-
+        A numeric value (0-100) in Matrix rooms that determines user permissions.
+        Different actions (sending events, kicking users, changing room settings)
+        require different minimum power levels.
+      category: Security
+      tags:
+        - Authorization
+        - Rooms
+        - Security

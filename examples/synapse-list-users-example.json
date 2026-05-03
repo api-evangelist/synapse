@@ -1,0 +1,48 @@
+{
+  "title": "List Users",
+  "description": "Example of listing users on a Synapse homeserver via the Admin API",
+  "operation": "GET /v2/users",
+  "request": {
+    "headers": {
+      "Authorization": "Bearer syt_admin_XXXXXXXXXXXXX"
+    },
+    "queryParams": {
+      "limit": 10,
+      "from": 0,
+      "deactivated": false
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "users": [
+        {
+          "name": "@alice:example.com",
+          "displayname": "Alice Johnson",
+          "avatar_url": "mxc://example.com/AbCdEfGhIjKlMnOp",
+          "is_guest": false,
+          "admin": false,
+          "deactivated": false,
+          "erased": false,
+          "shadow_banned": false,
+          "creation_ts": 1700000000,
+          "user_type": null
+        },
+        {
+          "name": "@bob:example.com",
+          "displayname": "Bob Smith",
+          "avatar_url": null,
+          "is_guest": false,
+          "admin": true,
+          "deactivated": false,
+          "erased": false,
+          "shadow_banned": false,
+          "creation_ts": 1700100000,
+          "user_type": null
+        }
+      ],
+      "next_token": 10,
+      "total": 42
+    }
+  }
+}

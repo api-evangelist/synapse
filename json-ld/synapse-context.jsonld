@@ -1,0 +1,76 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "matrix": "https://matrix.org/vocab#",
+    "synapse": "https://github.com/element-hq/synapse/vocab#",
+
+    "HomeServer": {
+      "@id": "matrix:HomeServer",
+      "@type": "@id",
+      "rdfs:subClassOf": { "@id": "schema:SoftwareApplication" }
+    },
+    "MatrixUser": {
+      "@id": "matrix:MatrixUser",
+      "@type": "@id",
+      "rdfs:subClassOf": { "@id": "schema:Person" }
+    },
+    "MatrixRoom": {
+      "@id": "matrix:MatrixRoom",
+      "@type": "@id",
+      "rdfs:subClassOf": { "@id": "schema:ConversationThread" }
+    },
+    "MatrixEvent": {
+      "@id": "matrix:MatrixEvent",
+      "@type": "@id",
+      "rdfs:subClassOf": { "@id": "schema:Event" }
+    },
+    "MatrixMessage": {
+      "@id": "matrix:MatrixMessage",
+      "@type": "@id",
+      "rdfs:subClassOf": { "@id": "schema:Message" }
+    },
+    "MatrixSpace": {
+      "@id": "matrix:MatrixSpace",
+      "@type": "@id",
+      "rdfs:subClassOf": { "@id": "matrix:MatrixRoom" }
+    },
+    "ApplicationService": {
+      "@id": "matrix:ApplicationService",
+      "@type": "@id",
+      "rdfs:subClassOf": { "@id": "schema:SoftwareApplication" }
+    },
+    "RegistrationToken": {
+      "@id": "synapse:RegistrationToken",
+      "@type": "@id"
+    },
+    "AdminApi": {
+      "@id": "synapse:AdminApi",
+      "@type": "@id"
+    },
+
+    "userId": { "@id": "matrix:userId", "@type": "xsd:string" },
+    "roomId": { "@id": "matrix:roomId", "@type": "xsd:string" },
+    "eventId": { "@id": "matrix:eventId", "@type": "xsd:string" },
+    "displayName": { "@id": "schema:name", "@type": "xsd:string" },
+    "avatarUrl": { "@id": "schema:image", "@type": "@id" },
+    "isAdmin": { "@id": "synapse:isAdmin", "@type": "xsd:boolean" },
+    "isDeactivated": { "@id": "synapse:isDeactivated", "@type": "xsd:boolean" },
+    "isGuest": { "@id": "synapse:isGuest", "@type": "xsd:boolean" },
+    "isFederatable": { "@id": "matrix:isFederatable", "@type": "xsd:boolean" },
+    "isPublic": { "@id": "matrix:isPublic", "@type": "xsd:boolean" },
+    "isEncrypted": { "@id": "matrix:isEncrypted", "@type": "xsd:boolean" },
+    "joinRules": { "@id": "matrix:joinRules", "@type": "xsd:string" },
+    "historyVisibility": { "@id": "matrix:historyVisibility", "@type": "xsd:string" },
+    "memberCount": { "@id": "matrix:memberCount", "@type": "xsd:integer" },
+    "localMemberCount": { "@id": "synapse:localMemberCount", "@type": "xsd:integer" },
+    "roomVersion": { "@id": "matrix:roomVersion", "@type": "xsd:string" },
+    "serverVersion": { "@id": "synapse:serverVersion", "@type": "xsd:string" },
+    "serverName": { "@id": "matrix:serverName", "@type": "xsd:string" },
+    "creationTimestamp": { "@id": "schema:dateCreated", "@type": "xsd:integer" },
+    "accessToken": { "@id": "synapse:accessToken", "@type": "xsd:string" },
+    "usesAllowed": { "@id": "synapse:usesAllowed", "@type": "xsd:integer" },
+    "expiryTime": { "@id": "synapse:expiryTime", "@type": "xsd:integer" }
+  }
+}
