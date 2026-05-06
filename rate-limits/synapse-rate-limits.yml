@@ -4,104 +4,93 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Synapse
 providerId: synapse
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
-  - Chat
-  - Collaboration
-  - Decentralized
-  - Federation
   - Matrix
   - Messaging
-  - Open-Source
-  - Real-Time
+  - Open Source
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Synapse API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+description: Synapse ships with documented per-second / burst-count rate limits configured under the `ratelimiting` section of homeserver.yaml. Defaults are operator-tunable. Limits are enforced per-user / per-IP / per-room as appropriate and are not bound to a commercial plan because Synapse is self-hosted open-source software.
+sources:
+  - https://element-hq.github.io/synapse/latest/usage/configuration/config_documentation.html
+  - https://github.com/element-hq/synapse
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Synapse Client-Server API
-      - Synapse Server-Server API
-      - Synapse Admin API
-      - Synapse Application Service API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Synapse Client-Server API
-      - Synapse Server-Server API
-      - Synapse Admin API
-      - Synapse Application Service API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Synapse Client-Server API
-      - Synapse Server-Server API
-      - Synapse Admin API
-      - Synapse Application Service API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Synapse Client-Server API
-      - Synapse Server-Server API
-      - Synapse Admin API
-      - Synapse Application Service API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Synapse Client-Server API
-      - Synapse Server-Server API
-      - Synapse Admin API
-      - Synapse Application Service API
+  - name: Client Messaging (rc_message)
+    scope: user
+    metric: requests_per_second
+    limit: 0.2
+    timeFrame: second
+    notes: Burst count 10. Applies to client message-send events.
+  - name: Login by Address (rc_login.address)
+    scope: IP
+    metric: requests_per_second
+    limit: 0.003
+    timeFrame: second
+    notes: Burst count 5.
+  - name: Login by Account (rc_login.account)
+    scope: account
+    metric: requests_per_second
+    limit: 0.003
+    timeFrame: second
+    notes: Burst count 5.
+  - name: Failed Login Attempts (rc_login.failed_attempts)
+    scope: account
+    metric: requests_per_second
+    limit: 0.17
+    timeFrame: second
+    notes: Burst count 3.
+  - name: Registration (rc_registration)
+    scope: IP
+    metric: requests_per_second
+    limit: 0.17
+    timeFrame: second
+    notes: Burst count 3.
+  - name: Invites Per Room (rc_invites.per_room)
+    scope: room
+    metric: requests_per_second
+    limit: 0.3
+    timeFrame: second
+    notes: Burst count 10.
+  - name: Invites Per User (rc_invites.per_user)
+    scope: user
+    metric: requests_per_second
+    limit: 0.003
+    timeFrame: second
+    notes: Burst count 5.
+  - name: Invites Per Issuer (rc_invites.per_issuer)
+    scope: user
+    metric: requests_per_second
+    limit: 0.3
+    timeFrame: second
+    notes: Burst count 10.
+  - name: Local Joins (rc_joins.local)
+    scope: user
+    metric: requests_per_second
+    limit: 0.1
+    timeFrame: second
+    notes: Burst count 10.
+  - name: Remote Joins (rc_joins.remote)
+    scope: user
+    metric: requests_per_second
+    limit: 0.01
+    timeFrame: second
+    notes: Burst count 10.
+  - name: Federation Read-Receipts (federation_rr_transactions_per_room_per_second)
+    scope: room
+    metric: requests_per_second
+    limit: 50
+    timeFrame: second
+    notes: Federation read-receipt transactions per room.
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Operator-Tunable Defaults
+    description: All rate-limit values above are defaults from homeserver.yaml; operators may raise or lower them per deployment. Effective limits are therefore deployment-specific.
+  - name: Per-Scope Enforcement
+    description: Limits are enforced per-user, per-IP, or per-room depending on the bucket; clients must distinguish 429s caused by user-bucket vs IP-bucket throttling.
+  - name: Federation Backpressure
+    description: Federation limits (rc_joins.remote, federation_rr_transactions_per_room_per_second) protect remote homeservers; clients should expect backoff when joining large remote rooms.
 maintainers:
-  - FN: API Evangelist
-    email: info@apievangelist.com
+  - FN: Kin Lane
+    email: kin@apievangelist.com
