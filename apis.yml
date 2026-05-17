@@ -104,13 +104,13 @@ common:
     url: https://github.com/element-hq/synapse
   - type: Documentation
     url: https://matrix-org.github.io/synapse/latest/
-  - type: Getting Started
+  - type: GettingStarted
     url: https://matrix-org.github.io/synapse/latest/setup/installation.html
   - type: Authentication
     url: https://matrix-org.github.io/synapse/latest/usage/configuration/config_documentation.html#authentication
-  - type: Rate Limits
+  - type: RateLimits
     url: https://matrix-org.github.io/synapse/latest/usage/configuration/config_documentation.html#ratelimiting
-  - type: Changelog
+  - type: ChangeLog
     url: https://github.com/matrix-org/synapse/blob/develop/CHANGES.md
   - type: License
     url: https://github.com/matrix-org/synapse/blob/develop/LICENSE
