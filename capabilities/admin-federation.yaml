@@ -1,0 +1,88 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Synapse Admin API — Federation
+  description: 'Synapse Admin API — Federation. 1 operations. Lead operation: List Federation Destinations. Self-contained
+    Naftiko capability covering one Synapse business surface.'
+  tags:
+  - Synapse
+  - Federation
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SYNAPSE_API_KEY: SYNAPSE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-federation
+    baseUri: https://matrix.example.com/_synapse/admin
+    description: Synapse Admin API — Federation business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-federation-destinations
+      path: /v1/federation/destinations
+      operations:
+      - name: listfederationdestinations
+        method: GET
+        description: List Federation Destinations
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: limit
+          in: query
+          type: integer
+        - name: from
+          in: query
+          type: integer
+        - name: destination
+          in: query
+          type: string
+    authentication:
+      type: bearer
+      token: '{{env.SYNAPSE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-federation-rest
+    port: 8080
+    description: REST adapter for Synapse Admin API — Federation. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v1/federation/destinations
+      name: v1-federation-destinations
+      description: REST surface for v1-federation-destinations.
+      operations:
+      - method: GET
+        name: listfederationdestinations
+        description: List Federation Destinations
+        call: admin-federation.listfederationdestinations
+        with:
+          limit: rest.limit
+          from: rest.from
+          destination: rest.destination
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-federation-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Synapse Admin API — Federation. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-federation-destinations
+      description: List Federation Destinations
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-federation.listfederationdestinations
+      with:
+        limit: tools.limit
+        from: tools.from
+        destination: tools.destination
+      outputParameters:
+      - type: object
+        mapping: $.

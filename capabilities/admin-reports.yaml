@@ -1,0 +1,98 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Synapse Admin API — Reports
+  description: 'Synapse Admin API — Reports. 1 operations. Lead operation: List Event Reports. Self-contained Naftiko capability
+    covering one Synapse business surface.'
+  tags:
+  - Synapse
+  - Reports
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SYNAPSE_API_KEY: SYNAPSE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-reports
+    baseUri: https://matrix.example.com/_synapse/admin
+    description: Synapse Admin API — Reports business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-event_reports
+      path: /v1/event_reports
+      operations:
+      - name: listeventreports
+        method: GET
+        description: List Event Reports
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: limit
+          in: query
+          type: integer
+        - name: from
+          in: query
+          type: integer
+        - name: dir
+          in: query
+          type: string
+        - name: room_id
+          in: query
+          type: string
+        - name: user_id
+          in: query
+          type: string
+    authentication:
+      type: bearer
+      token: '{{env.SYNAPSE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-reports-rest
+    port: 8080
+    description: REST adapter for Synapse Admin API — Reports. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/event-reports
+      name: v1-event-reports
+      description: REST surface for v1-event_reports.
+      operations:
+      - method: GET
+        name: listeventreports
+        description: List Event Reports
+        call: admin-reports.listeventreports
+        with:
+          limit: rest.limit
+          from: rest.from
+          dir: rest.dir
+          room_id: rest.room_id
+          user_id: rest.user_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-reports-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Synapse Admin API — Reports. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-event-reports
+      description: List Event Reports
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-reports.listeventreports
+      with:
+        limit: tools.limit
+        from: tools.from
+        dir: tools.dir
+        room_id: tools.room_id
+        user_id: tools.user_id
+      outputParameters:
+      - type: object
+        mapping: $.

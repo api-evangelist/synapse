@@ -1,0 +1,331 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Synapse Admin API — Users
+  description: 'Synapse Admin API — Users. 6 operations. Lead operation: Deactivate User Account. Self-contained Naftiko capability
+    covering one Synapse business surface.'
+  tags:
+  - Synapse
+  - Users
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SYNAPSE_API_KEY: SYNAPSE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: admin-users
+    baseUri: https://matrix.example.com/_synapse/admin
+    description: Synapse Admin API — Users business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-deactivate-userId
+      path: /v1/deactivate/{userId}
+      operations:
+      - name: deactivateuser
+        method: POST
+        description: Deactivate User Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: userId
+          in: path
+          type: string
+          description: The fully qualified Matrix user ID
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: v1-reset_password-userId
+      path: /v1/reset_password/{userId}
+      operations:
+      - name: resetuserpassword
+        method: POST
+        description: Reset User Password
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: userId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1-users-userId-rooms
+      path: /v1/users/{userId}/rooms
+      operations:
+      - name: listuserrooms
+        method: GET
+        description: List User Rooms
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: userId
+          in: path
+          type: string
+          required: true
+    - name: v2-users
+      path: /v2/users
+      operations:
+      - name: listusers
+        method: GET
+        description: List All Users
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: user_id
+          in: query
+          type: string
+          description: Filter by user ID (prefix match)
+        - name: name
+          in: query
+          type: string
+          description: Filter by display name or user ID
+        - name: guests
+          in: query
+          type: boolean
+          description: Include guest accounts
+        - name: deactivated
+          in: query
+          type: boolean
+          description: Include deactivated accounts
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of results to return
+        - name: from
+          in: query
+          type: integer
+          description: Offset for pagination
+    - name: v2-users-userId
+      path: /v2/users/{userId}
+      operations:
+      - name: getuser
+        method: GET
+        description: Get User Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: userId
+          in: path
+          type: string
+          description: The fully qualified Matrix user ID (e.g. @user:example.com)
+          required: true
+      - name: upsertuser
+        method: PUT
+        description: Create or Modify User
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: userId
+          in: path
+          type: string
+          description: The fully qualified Matrix user ID
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SYNAPSE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: admin-users-rest
+    port: 8080
+    description: REST adapter for Synapse Admin API — Users. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/deactivate/{userid}
+      name: v1-deactivate-userid
+      description: REST surface for v1-deactivate-userId.
+      operations:
+      - method: POST
+        name: deactivateuser
+        description: Deactivate User Account
+        call: admin-users.deactivateuser
+        with:
+          userId: rest.userId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/reset-password/{userid}
+      name: v1-reset-password-userid
+      description: REST surface for v1-reset_password-userId.
+      operations:
+      - method: POST
+        name: resetuserpassword
+        description: Reset User Password
+        call: admin-users.resetuserpassword
+        with:
+          userId: rest.userId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/users/{userid}/rooms
+      name: v1-users-userid-rooms
+      description: REST surface for v1-users-userId-rooms.
+      operations:
+      - method: GET
+        name: listuserrooms
+        description: List User Rooms
+        call: admin-users.listuserrooms
+        with:
+          userId: rest.userId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/users
+      name: v2-users
+      description: REST surface for v2-users.
+      operations:
+      - method: GET
+        name: listusers
+        description: List All Users
+        call: admin-users.listusers
+        with:
+          user_id: rest.user_id
+          name: rest.name
+          guests: rest.guests
+          deactivated: rest.deactivated
+          limit: rest.limit
+          from: rest.from
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2/users/{userid}
+      name: v2-users-userid
+      description: REST surface for v2-users-userId.
+      operations:
+      - method: GET
+        name: getuser
+        description: Get User Details
+        call: admin-users.getuser
+        with:
+          userId: rest.userId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: upsertuser
+        description: Create or Modify User
+        call: admin-users.upsertuser
+        with:
+          userId: rest.userId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: admin-users-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Synapse Admin API — Users. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: deactivate-user-account
+      description: Deactivate User Account
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-users.deactivateuser
+      with:
+        userId: tools.userId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: reset-user-password
+      description: Reset User Password
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: admin-users.resetuserpassword
+      with:
+        userId: tools.userId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-user-rooms
+      description: List User Rooms
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-users.listuserrooms
+      with:
+        userId: tools.userId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-users
+      description: List All Users
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-users.listusers
+      with:
+        user_id: tools.user_id
+        name: tools.name
+        guests: tools.guests
+        deactivated: tools.deactivated
+        limit: tools.limit
+        from: tools.from
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-user-details
+      description: Get User Details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: admin-users.getuser
+      with:
+        userId: tools.userId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-modify-user
+      description: Create or Modify User
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: admin-users.upsertuser
+      with:
+        userId: tools.userId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
