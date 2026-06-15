@@ -1,0 +1,498 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Synapse Admin API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List All Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v2/users",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by user ID (prefix match)"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter by display name or user ID"
+              },
+              {
+                "name": "guests",
+                "value": "",
+                "type": "query",
+                "description": "Include guest accounts"
+              },
+              {
+                "name": "deactivated",
+                "value": "",
+                "type": "query",
+                "description": "Include deactivated accounts"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Offset for pagination"
+              }
+            ]
+          },
+          "docs": "List all local users on the homeserver with optional filtering"
+        },
+        {
+          "info": {
+            "name": "Get User Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v2/users/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The fully qualified Matrix user ID (e.g. @user:example.com)"
+              }
+            ]
+          },
+          "docs": "Get detailed information about a specific user"
+        },
+        {
+          "info": {
+            "name": "Create or Modify User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://matrix.example.com/_synapse/admin/v2/users/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The fully qualified Matrix user ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new user account or modify an existing user"
+        },
+        {
+          "info": {
+            "name": "Deactivate User Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://matrix.example.com/_synapse/admin/v1/deactivate/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The fully qualified Matrix user ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deactivate a user account, optionally erasing their data"
+        },
+        {
+          "info": {
+            "name": "Reset User Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://matrix.example.com/_synapse/admin/v1/reset_password/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reset the password for a local user"
+        },
+        {
+          "info": {
+            "name": "List User Rooms",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/users/:userId/rooms",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List all rooms that a user is a member of"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Rooms",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List All Rooms",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/rooms",
+            "params": [
+              {
+                "name": "search_term",
+                "value": "",
+                "type": "query",
+                "description": "Filter rooms by room ID, name, or canonical alias"
+              },
+              {
+                "name": "order_by",
+                "value": "",
+                "type": "query",
+                "description": "Sort order for results"
+              },
+              {
+                "name": "dir",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction (forward/backward)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List all rooms on the homeserver with optional filtering and sorting"
+        },
+        {
+          "info": {
+            "name": "Get Room Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/rooms/:roomId",
+            "params": [
+              {
+                "name": "roomId",
+                "value": "",
+                "type": "path",
+                "description": "The room ID (e.g. !abc123:example.com)"
+              }
+            ]
+          },
+          "docs": "Get details about a specific room"
+        },
+        {
+          "info": {
+            "name": "Delete Room",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://matrix.example.com/_synapse/admin/v1/rooms/:roomId",
+            "params": [
+              {
+                "name": "roomId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete a room and all its messages from the homeserver"
+        },
+        {
+          "info": {
+            "name": "Get Room Members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/rooms/:roomId/members",
+            "params": [
+              {
+                "name": "roomId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List all members of a room"
+        },
+        {
+          "info": {
+            "name": "Join User to Room",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://matrix.example.com/_synapse/admin/v1/join/:roomIdOrAlias",
+            "params": [
+              {
+                "name": "roomIdOrAlias",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Force a local user to join a room"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Statistics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get User Media Statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/statistics/users/media",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order_by",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get statistics on media usage by users"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Server",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Server Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/server_version"
+          },
+          "docs": "Get the current Synapse server version"
+        },
+        {
+          "info": {
+            "name": "Get Background Updates Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/background_updates/enabled"
+          },
+          "docs": "Check whether background database updates are enabled"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Registration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Registration Tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/registration_tokens",
+            "params": [
+              {
+                "name": "valid",
+                "value": "",
+                "type": "query",
+                "description": "Filter by validity"
+              }
+            ]
+          },
+          "docs": "List all registration tokens for controlled user registration"
+        },
+        {
+          "info": {
+            "name": "Create Registration Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://matrix.example.com/_synapse/admin/v1/registration_tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new registration token"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Event Reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/event_reports",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "dir",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "room_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List events that users have reported"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Federation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Federation Destinations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/federation/destinations",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "destination",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List all remote homeservers that this server has federated with"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
