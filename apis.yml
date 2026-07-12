@@ -93,6 +93,12 @@ apis:
       - type: Documentation
         url: https://spec.matrix.org/latest/application-service-api/
 common:
+  - type: VulnerabilityDisclosure
+    url: security/synapse-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/synapse-domain-security.yml
+  - type: Authentication
+    url: authentication/synapse-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/synapsepay
   - type: GitHub
@@ -117,6 +123,8 @@ common:
     url: https://pypi.org/project/matrix-synapse/
   - type: Matrix Spec
     url: https://spec.matrix.org/latest/
+  - url: https://www.matrix.org/blog/feed/
+    type: Blog
 maintainers:
   - FN: API Evangelist
     email: info@apievangelist.com
