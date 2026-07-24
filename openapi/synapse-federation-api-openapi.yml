@@ -1,0 +1,89 @@
+openapi: 3.0.3
+info:
+  title: Synapse Admin Federation API
+  description: Administrative REST API for the Synapse Matrix homeserver. Provides server administrators with endpoints to manage users, rooms, media, federation, registration tokens, background updates, event reports, and server statistics. Authentication requires an access token belonging to a server admin account, passed as a Bearer token. Admin API endpoints should be protected behind a reverse proxy.
+  version: '1.0'
+  contact:
+    name: Element (Synapse maintainers)
+    url: https://github.com/element-hq/synapse
+  license:
+    name: AGPL-3.0
+    url: https://github.com/element-hq/synapse/blob/develop/LICENSE
+servers:
+- url: https://matrix.example.com/_synapse/admin
+  description: Synapse Admin API base URL
+security:
+- BearerAuth: []
+tags:
+- name: Federation
+  description: Federation management
+paths:
+  /v1/federation/destinations:
+    get:
+      summary: List Federation Destinations
+      description: List all remote homeservers that this server has federated with
+      operationId: listFederationDestinations
+      tags:
+      - Federation
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+      - name: from
+        in: query
+        schema:
+          type: integer
+      - name: destination
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of federation destinations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  destinations:
+                    type: array
+                    items:
+                      type: object
+                  next_token:
+                    type: string
+                  total:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+components:
+  responses:
+    Unauthorized:
+      description: Unauthorized - missing or invalid access token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - requires server admin access
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errcode:
+          type: string
+          description: Matrix error code (e.g. M_FORBIDDEN, M_NOT_FOUND)
+        error:
+          type: string
+          description: Human-readable error description
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Admin access token obtained from the Synapse homeserver

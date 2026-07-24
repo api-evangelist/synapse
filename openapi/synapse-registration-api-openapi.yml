@@ -1,0 +1,133 @@
+openapi: 3.0.3
+info:
+  title: Synapse Admin Federation Registration API
+  description: Administrative REST API for the Synapse Matrix homeserver. Provides server administrators with endpoints to manage users, rooms, media, federation, registration tokens, background updates, event reports, and server statistics. Authentication requires an access token belonging to a server admin account, passed as a Bearer token. Admin API endpoints should be protected behind a reverse proxy.
+  version: '1.0'
+  contact:
+    name: Element (Synapse maintainers)
+    url: https://github.com/element-hq/synapse
+  license:
+    name: AGPL-3.0
+    url: https://github.com/element-hq/synapse/blob/develop/LICENSE
+servers:
+- url: https://matrix.example.com/_synapse/admin
+  description: Synapse Admin API base URL
+security:
+- BearerAuth: []
+tags:
+- name: Registration
+  description: User registration and tokens
+paths:
+  /v1/registration_tokens:
+    get:
+      summary: List Registration Tokens
+      description: List all registration tokens for controlled user registration
+      operationId: listRegistrationTokens
+      tags:
+      - Registration
+      parameters:
+      - name: valid
+        in: query
+        schema:
+          type: boolean
+        description: Filter by validity
+      responses:
+        '200':
+          description: List of registration tokens
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  registration_tokens:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RegistrationToken'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    post:
+      summary: Create Registration Token
+      description: Create a new registration token
+      operationId: createRegistrationToken
+      tags:
+      - Registration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: Custom token string (auto-generated if omitted)
+                uses_allowed:
+                  type: integer
+                  description: Maximum number of uses (unlimited if null)
+                expiry_time:
+                  type: integer
+                  description: Token expiry time in milliseconds since epoch
+      responses:
+        '200':
+          description: Registration token created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistrationToken'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+components:
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized - missing or invalid access token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - requires server admin access
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    RegistrationToken:
+      type: object
+      properties:
+        token:
+          type: string
+        uses_allowed:
+          type: integer
+          nullable: true
+        pending:
+          type: integer
+        completed:
+          type: integer
+        expiry_time:
+          type: integer
+          nullable: true
+    Error:
+      type: object
+      properties:
+        errcode:
+          type: string
+          description: Matrix error code (e.g. M_FORBIDDEN, M_NOT_FOUND)
+        error:
+          type: string
+          description: Human-readable error description
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Admin access token obtained from the Synapse homeserver

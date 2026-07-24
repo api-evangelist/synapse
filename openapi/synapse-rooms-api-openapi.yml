@@ -1,0 +1,330 @@
+openapi: 3.0.3
+info:
+  title: Synapse Admin Federation Rooms API
+  description: Administrative REST API for the Synapse Matrix homeserver. Provides server administrators with endpoints to manage users, rooms, media, federation, registration tokens, background updates, event reports, and server statistics. Authentication requires an access token belonging to a server admin account, passed as a Bearer token. Admin API endpoints should be protected behind a reverse proxy.
+  version: '1.0'
+  contact:
+    name: Element (Synapse maintainers)
+    url: https://github.com/element-hq/synapse
+  license:
+    name: AGPL-3.0
+    url: https://github.com/element-hq/synapse/blob/develop/LICENSE
+servers:
+- url: https://matrix.example.com/_synapse/admin
+  description: Synapse Admin API base URL
+security:
+- BearerAuth: []
+tags:
+- name: Rooms
+  description: Room administration and membership
+paths:
+  /v1/rooms:
+    get:
+      summary: List All Rooms
+      description: List all rooms on the homeserver with optional filtering and sorting
+      operationId: listRooms
+      tags:
+      - Rooms
+      parameters:
+      - name: search_term
+        in: query
+        schema:
+          type: string
+        description: Filter rooms by room ID, name, or canonical alias
+      - name: order_by
+        in: query
+        schema:
+          type: string
+          enum:
+          - alphabetical
+          - size
+          - joined_members
+          - joined_local_members
+          - version
+          - creator
+          - encryption
+          - federatable
+          - public
+          - join_rules
+          - guest_access
+          - history_visibility
+          - state_events
+        description: Sort order for results
+      - name: dir
+        in: query
+        schema:
+          type: string
+          enum:
+          - f
+          - b
+        description: Sort direction (forward/backward)
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 100
+      - name: from
+        in: query
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: List of rooms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoomList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/rooms/{roomId}:
+    get:
+      summary: Get Room Details
+      description: Get details about a specific room
+      operationId: getRoom
+      tags:
+      - Rooms
+      parameters:
+      - name: roomId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The room ID (e.g. !abc123:example.com)
+      responses:
+        '200':
+          description: Room details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoomDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete Room
+      description: Delete a room and all its messages from the homeserver
+      operationId: deleteRoom
+      tags:
+      - Rooms
+      parameters:
+      - name: roomId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                new_room_user_id:
+                  type: string
+                  description: User to create a shadow room for displaced members
+                room_name:
+                  type: string
+                  description: Name for the replacement room
+                message:
+                  type: string
+                  description: Message sent to users before deletion
+                block:
+                  type: boolean
+                  description: Block the room from being recreated
+                purge:
+                  type: boolean
+                  description: Purge all messages from the database
+      responses:
+        '200':
+          description: Room deletion initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  delete_id:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/rooms/{roomId}/members:
+    get:
+      summary: Get Room Members
+      description: List all members of a room
+      operationId: getRoomMembers
+      tags:
+      - Rooms
+      parameters:
+      - name: roomId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Room member list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoomMemberList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /v1/join/{roomIdOrAlias}:
+    post:
+      summary: Join User to Room
+      description: Force a local user to join a room
+      operationId: joinUserToRoom
+      tags:
+      - Rooms
+      parameters:
+      - name: roomIdOrAlias
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - user_id
+              properties:
+                user_id:
+                  type: string
+                  description: The Matrix user ID to join
+      responses:
+        '200':
+          description: User joined room
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  room_id:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+components:
+  schemas:
+    RoomList:
+      type: object
+      properties:
+        rooms:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoomSummary'
+        offset:
+          type: integer
+        next_batch:
+          type: integer
+        prev_batch:
+          type: integer
+        total_rooms:
+          type: integer
+    RoomSummary:
+      type: object
+      properties:
+        room_id:
+          type: string
+        name:
+          type: string
+        canonical_alias:
+          type: string
+        joined_members:
+          type: integer
+        joined_local_members:
+          type: integer
+        version:
+          type: string
+        creator:
+          type: string
+        encryption:
+          type: string
+          nullable: true
+        federatable:
+          type: boolean
+        public:
+          type: boolean
+        join_rules:
+          type: string
+        guest_access:
+          type: string
+          nullable: true
+        history_visibility:
+          type: string
+        state_events:
+          type: integer
+    RoomMemberList:
+      type: object
+      properties:
+        members:
+          type: array
+          items:
+            type: string
+        total:
+          type: integer
+    Error:
+      type: object
+      properties:
+        errcode:
+          type: string
+          description: Matrix error code (e.g. M_FORBIDDEN, M_NOT_FOUND)
+        error:
+          type: string
+          description: Human-readable error description
+    RoomDetail:
+      allOf:
+      - $ref: '#/components/schemas/RoomSummary'
+      - type: object
+        properties:
+          room_type:
+            type: string
+            nullable: true
+          forgotten:
+            type: boolean
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized - missing or invalid access token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - requires server admin access
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Admin access token obtained from the Synapse homeserver
