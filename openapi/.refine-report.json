@@ -1,0 +1,28 @@
+{
+  "provider": "synapse",
+  "sources": [
+    "synapse-federation-api-openapi.yml",
+    "synapse-media-api-openapi.yml",
+    "synapse-registration-api-openapi.yml",
+    "synapse-reports-api-openapi.yml",
+    "synapse-rooms-api-openapi.yml",
+    "synapse-server-api-openapi.yml",
+    "synapse-statistics-api-openapi.yml",
+    "synapse-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "synapse-federation-api-openapi.yml",
+    "synapse-media-api-openapi.yml",
+    "synapse-registration-api-openapi.yml",
+    "synapse-reports-api-openapi.yml",
+    "synapse-rooms-api-openapi.yml",
+    "synapse-server-api-openapi.yml",
+    "synapse-statistics-api-openapi.yml",
+    "synapse-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
