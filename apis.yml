@@ -34,7 +34,7 @@ image: https://matrix.org/images/matrix-logo.svg
 url: https://raw.githubusercontent.com/api-evangelist/synapse/refs/heads/main/apis.yml
 created: '2026-05-03'
 modified: '2026-05-19'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: synapse:synapse-application-service-api
   name: Synapse Application Service API
