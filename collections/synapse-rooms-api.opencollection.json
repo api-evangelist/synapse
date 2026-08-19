@@ -1,0 +1,146 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Synapse Admin Federation Rooms API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Rooms",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List All Rooms",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/rooms",
+            "params": [
+              {
+                "name": "search_term",
+                "value": "",
+                "type": "query",
+                "description": "Filter rooms by room ID, name, or canonical alias"
+              },
+              {
+                "name": "order_by",
+                "value": "",
+                "type": "query",
+                "description": "Sort order for results"
+              },
+              {
+                "name": "dir",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction (forward/backward)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List all rooms on the homeserver with optional filtering and sorting"
+        },
+        {
+          "info": {
+            "name": "Get Room Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/rooms/:roomId",
+            "params": [
+              {
+                "name": "roomId",
+                "value": "",
+                "type": "path",
+                "description": "The room ID (e.g. !abc123:example.com)"
+              }
+            ]
+          },
+          "docs": "Get details about a specific room"
+        },
+        {
+          "info": {
+            "name": "Delete Room",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://matrix.example.com/_synapse/admin/v1/rooms/:roomId",
+            "params": [
+              {
+                "name": "roomId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete a room and all its messages from the homeserver"
+        },
+        {
+          "info": {
+            "name": "Get Room Members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/rooms/:roomId/members",
+            "params": [
+              {
+                "name": "roomId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List all members of a room"
+        },
+        {
+          "info": {
+            "name": "Join User to Room",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://matrix.example.com/_synapse/admin/v1/join/:roomIdOrAlias",
+            "params": [
+              {
+                "name": "roomIdOrAlias",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Force a local user to join a room"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

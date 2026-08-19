@@ -1,0 +1,178 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Synapse Admin Federation Users API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List All Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v2/users",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by user ID (prefix match)"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter by display name or user ID"
+              },
+              {
+                "name": "guests",
+                "value": "",
+                "type": "query",
+                "description": "Include guest accounts"
+              },
+              {
+                "name": "deactivated",
+                "value": "",
+                "type": "query",
+                "description": "Include deactivated accounts"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Offset for pagination"
+              }
+            ]
+          },
+          "docs": "List all local users on the homeserver with optional filtering"
+        },
+        {
+          "info": {
+            "name": "Get User Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v2/users/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The fully qualified Matrix user ID (e.g. @user:example.com)"
+              }
+            ]
+          },
+          "docs": "Get detailed information about a specific user"
+        },
+        {
+          "info": {
+            "name": "Create or Modify User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://matrix.example.com/_synapse/admin/v2/users/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The fully qualified Matrix user ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new user account or modify an existing user"
+        },
+        {
+          "info": {
+            "name": "Deactivate User Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://matrix.example.com/_synapse/admin/v1/deactivate/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The fully qualified Matrix user ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deactivate a user account, optionally erasing their data"
+        },
+        {
+          "info": {
+            "name": "Reset User Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://matrix.example.com/_synapse/admin/v1/reset_password/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reset the password for a local user"
+        },
+        {
+          "info": {
+            "name": "List User Rooms",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/users/:userId/rooms",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List all rooms that a user is a member of"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,58 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Synapse Admin Federation Registration API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Registration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Registration Tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://matrix.example.com/_synapse/admin/v1/registration_tokens",
+            "params": [
+              {
+                "name": "valid",
+                "value": "",
+                "type": "query",
+                "description": "Filter by validity"
+              }
+            ]
+          },
+          "docs": "List all registration tokens for controlled user registration"
+        },
+        {
+          "info": {
+            "name": "Create Registration Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://matrix.example.com/_synapse/admin/v1/registration_tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new registration token"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
