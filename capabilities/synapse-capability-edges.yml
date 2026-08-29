@@ -1,0 +1,26 @@
+slug: synapse
+provider: Synapse
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Telecommunications
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Users
+  spec_file: synapse-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: PUT /v2/users/{userId}  upsertUser  Create or Modify User; POST /v1/deactivate/{userId}  deactivateUser  Deactivate
+    User Account; POST /v1/reset_password/{userId}  resetUserPassword
+  reason: Administrative account lifecycle — create, modify, deactivate accounts and reset passwords —
+    is identity and access administration (joiner-mover-leaver style operations) for the homeserver's
+    user directory, not customer master data.

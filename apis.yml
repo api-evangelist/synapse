@@ -207,6 +207,9 @@ apis:
   - type: GitHub
     url: https://github.com/matrix-org/synapse/tree/develop/docs/admin_api
 common:
+  - type: CapabilityMap
+    url: capabilities/synapse-capability-edges.yml
+    name: Synapse Business Capability Map
   - type: AgenticAccess
     url: agentic-access/synapse-agentic-access.yml
   - type: VulnerabilityDisclosure
