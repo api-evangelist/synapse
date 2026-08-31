@@ -46,7 +46,7 @@ apis:
   humanURL: https://spec.matrix.org/latest/application-service-api/
   baseURL: https://matrix.example.com/_matrix/app
   tags:
-  - Application Services
+  - Application-Services
   - Bots
   - Bridges
   - Integration
