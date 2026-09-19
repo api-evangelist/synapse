@@ -50,7 +50,7 @@ apis:
   tags:
   - Application Services
   - Bots
-  - Bridges
+  - Bridge
   - Integration
   - Matrix
   tags_raw:
@@ -158,6 +158,8 @@ apis:
   humanURL: https://spec.matrix.org/latest/client-server-api/
   baseURL: https://matrix.example.com/_matrix/client
   tags:
+  - Servers
+  tags_raw:
   - Server
   properties:
   - type: OpenAPI
