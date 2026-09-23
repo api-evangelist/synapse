@@ -1,14 +1,7 @@
 {
   "provider": "synapse",
   "sources": [
-    "synapse-federation-api-openapi.yml",
-    "synapse-media-api-openapi.yml",
-    "synapse-registration-api-openapi.yml",
-    "synapse-reports-api-openapi.yml",
-    "synapse-rooms-api-openapi.yml",
-    "synapse-server-api-openapi.yml",
-    "synapse-statistics-api-openapi.yml",
-    "synapse-users-api-openapi.yml"
+    "_original/synapse-admin-api-openapi.yml"
   ],
   "outputs": [
     "synapse-federation-api-openapi.yml",
@@ -23,6 +16,19 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "synapse-admin-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "synapse-federation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "synapse-media-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "synapse-registration-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "synapse-reports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "synapse-rooms-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "synapse-server-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "synapse-statistics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "synapse-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

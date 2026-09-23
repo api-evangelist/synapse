@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Synapse Admin Federation Registration API
+  title: Synapse Admin Registration API
   description: Administrative REST API for the Synapse Matrix homeserver. Provides server administrators with endpoints to manage users, rooms, media, federation, registration tokens, background updates, event reports, and server statistics. Authentication requires an access token belonging to a server admin account, passed as a Bearer token. Admin API endpoints should be protected behind a reverse proxy.
   version: '1.0'
   contact:
@@ -83,6 +83,12 @@ paths:
           $ref: '#/components/responses/Forbidden'
 components:
   responses:
+    Forbidden:
+      description: Forbidden - requires server admin access
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     BadRequest:
       description: Bad request
       content:
@@ -95,12 +101,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden - requires server admin access
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     RegistrationToken:
       type: object
@@ -108,15 +108,17 @@ components:
         token:
           type: string
         uses_allowed:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         pending:
           type: integer
         completed:
           type: integer
         expiry_time:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
     Error:
       type: object
       properties:
