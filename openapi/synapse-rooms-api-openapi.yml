@@ -221,32 +221,18 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
 components:
-  responses:
-    Forbidden:
-      description: Forbidden - requires server admin access
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized - missing or invalid access token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    RoomDetail:
+      allOf:
+      - $ref: '#/components/schemas/RoomSummary'
+      - type: object
+        properties:
+          room_type:
+            type:
+            - string
+            - 'null'
+          forgotten:
+            type: boolean
     RoomMemberList:
       type: object
       properties:
@@ -255,6 +241,21 @@ components:
           items:
             type: string
         total:
+          type: integer
+    RoomList:
+      type: object
+      properties:
+        rooms:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoomSummary'
+        offset:
+          type: integer
+        next_batch:
+          type: integer
+        prev_batch:
+          type: integer
+        total_rooms:
           type: integer
     RoomSummary:
       type: object
@@ -291,32 +292,6 @@ components:
           type: string
         state_events:
           type: integer
-    RoomList:
-      type: object
-      properties:
-        rooms:
-          type: array
-          items:
-            $ref: '#/components/schemas/RoomSummary'
-        offset:
-          type: integer
-        next_batch:
-          type: integer
-        prev_batch:
-          type: integer
-        total_rooms:
-          type: integer
-    RoomDetail:
-      allOf:
-      - $ref: '#/components/schemas/RoomSummary'
-      - type: object
-        properties:
-          room_type:
-            type:
-            - string
-            - 'null'
-          forgotten:
-            type: boolean
     Error:
       type: object
       properties:
@@ -326,6 +301,31 @@ components:
         error:
           type: string
           description: Human-readable error description
+  responses:
+    Unauthorized:
+      description: Unauthorized - missing or invalid access token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - requires server admin access
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     BearerAuth:
       type: http

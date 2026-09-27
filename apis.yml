@@ -7,15 +7,21 @@ description: >-
   (federation), Application Service, Identity Service, and Admin APIs. Since version 1.99, maintained by Element under
   AGPL-3.0.
 deliveryModel:
-  model: unknown
-  open_source: false
+  model: self-hosted
+  license: AGPL-3.0
+  license_evidence:
+    repo: element-hq/synapse
+    spdx: AGPL-3.0
+    stars: 4648
+  open_source: true
   commercial: false
   callable_host: false
-  label: Delivery model not determined — needs a product licence on record
-  confidence: low
+  label: Self-hosted open source · you run it yourself
+  confidence: medium
   source:
   - openapi
-  generated: '2026-08-28'
+  - repository-license
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: paid
@@ -252,6 +258,15 @@ maintainers:
   - FN: API Evangelist
     email: info@apievangelist.com
 tags:
+  - Chat
+  - Collaboration
+  - Decentralized
+  - Federation
+  - Matrix
+  - Messaging
+  - Open Source
+  - Real-Time
+tags_raw:
   - Chat
   - Collaboration
   - Decentralized

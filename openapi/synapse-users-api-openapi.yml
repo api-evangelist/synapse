@@ -240,8 +240,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
 components:
   responses:
-    Forbidden:
-      description: Forbidden - requires server admin access
+    Unauthorized:
+      description: Unauthorized - missing or invalid access token
       content:
         application/json:
           schema:
@@ -252,83 +252,19 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized - missing or invalid access token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden - requires server admin access
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    UserDetail:
-      allOf:
-      - $ref: '#/components/schemas/UserSummary'
-      - type: object
-        properties:
-          threepids:
-            type: array
-            items:
-              type: object
-              properties:
-                medium:
-                  type: string
-                address:
-                  type: string
-          external_ids:
-            type: array
-            items:
-              type: object
-          user_type:
-            type: string
-    UserList:
-      type: object
-      properties:
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSummary'
-        next_token:
-          type: integer
-        total:
-          type: integer
-    Error:
-      type: object
-      properties:
-        errcode:
-          type: string
-          description: Matrix error code (e.g. M_FORBIDDEN, M_NOT_FOUND)
-        error:
-          type: string
-          description: Human-readable error description
-    UserUpsert:
-      type: object
-      properties:
-        password:
-          type: string
-        displayname:
-          type: string
-        avatar_url:
-          type: string
-        admin:
-          type: boolean
-        deactivated:
-          type: boolean
-        user_type:
-          type: string
-    RoomMembershipList:
-      type: object
-      properties:
-        joined_rooms:
-          type: array
-          items:
-            type: string
-        total:
-          type: integer
     UserSummary:
       type: object
       properties:
@@ -352,6 +288,70 @@ components:
         creation_ts:
           type: integer
           format: int64
+    RoomMembershipList:
+      type: object
+      properties:
+        joined_rooms:
+          type: array
+          items:
+            type: string
+        total:
+          type: integer
+    UserList:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSummary'
+        next_token:
+          type: integer
+        total:
+          type: integer
+    Error:
+      type: object
+      properties:
+        errcode:
+          type: string
+          description: Matrix error code (e.g. M_FORBIDDEN, M_NOT_FOUND)
+        error:
+          type: string
+          description: Human-readable error description
+    UserDetail:
+      allOf:
+      - $ref: '#/components/schemas/UserSummary'
+      - type: object
+        properties:
+          threepids:
+            type: array
+            items:
+              type: object
+              properties:
+                medium:
+                  type: string
+                address:
+                  type: string
+          external_ids:
+            type: array
+            items:
+              type: object
+          user_type:
+            type: string
+    UserUpsert:
+      type: object
+      properties:
+        password:
+          type: string
+        displayname:
+          type: string
+        avatar_url:
+          type: string
+        admin:
+          type: boolean
+        deactivated:
+          type: boolean
+        user_type:
+          type: string
   securitySchemes:
     BearerAuth:
       type: http

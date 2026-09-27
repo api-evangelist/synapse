@@ -83,8 +83,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
 components:
   responses:
-    Forbidden:
-      description: Forbidden - requires server admin access
+    Unauthorized:
+      description: Unauthorized - missing or invalid access token
       content:
         application/json:
           schema:
@@ -95,13 +95,22 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized - missing or invalid access token
+    Forbidden:
+      description: Forbidden - requires server admin access
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        errcode:
+          type: string
+          description: Matrix error code (e.g. M_FORBIDDEN, M_NOT_FOUND)
+        error:
+          type: string
+          description: Human-readable error description
     RegistrationToken:
       type: object
       properties:
@@ -119,15 +128,6 @@ components:
           type:
           - integer
           - 'null'
-    Error:
-      type: object
-      properties:
-        errcode:
-          type: string
-          description: Matrix error code (e.g. M_FORBIDDEN, M_NOT_FOUND)
-        error:
-          type: string
-          description: Human-readable error description
   securitySchemes:
     BearerAuth:
       type: http
