@@ -222,26 +222,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
 components:
   schemas:
-    RoomDetail:
-      allOf:
-      - $ref: '#/components/schemas/RoomSummary'
-      - type: object
-        properties:
-          room_type:
-            type:
-            - string
-            - 'null'
-          forgotten:
-            type: boolean
-    RoomMemberList:
-      type: object
-      properties:
-        members:
-          type: array
-          items:
-            type: string
-        total:
-          type: integer
     RoomList:
       type: object
       properties:
@@ -257,6 +237,26 @@ components:
           type: integer
         total_rooms:
           type: integer
+    RoomDetail:
+      allOf:
+      - $ref: '#/components/schemas/RoomSummary'
+      - type: object
+        properties:
+          room_type:
+            type:
+            - string
+            - 'null'
+          forgotten:
+            type: boolean
+    Error:
+      type: object
+      properties:
+        errcode:
+          type: string
+          description: Matrix error code (e.g. M_FORBIDDEN, M_NOT_FOUND)
+        error:
+          type: string
+          description: Human-readable error description
     RoomSummary:
       type: object
       properties:
@@ -292,36 +292,36 @@ components:
           type: string
         state_events:
           type: integer
-    Error:
+    RoomMemberList:
       type: object
       properties:
-        errcode:
-          type: string
-          description: Matrix error code (e.g. M_FORBIDDEN, M_NOT_FOUND)
-        error:
-          type: string
-          description: Human-readable error description
+        members:
+          type: array
+          items:
+            type: string
+        total:
+          type: integer
   responses:
-    Unauthorized:
-      description: Unauthorized - missing or invalid access token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     BadRequest:
       description: Bad request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not found
+    Unauthorized:
+      description: Unauthorized - missing or invalid access token
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
     Forbidden:
       description: Forbidden - requires server admin access
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found
       content:
         application/json:
           schema:
