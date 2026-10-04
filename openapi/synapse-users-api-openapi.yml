@@ -239,6 +239,31 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
 components:
+  responses:
+    Forbidden:
+      description: Forbidden - requires server admin access
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized - missing or invalid access token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     UserDetail:
       allOf:
@@ -260,38 +285,17 @@ components:
               type: object
           user_type:
             type: string
-    UserSummary:
+    UserList:
       type: object
       properties:
-        name:
-          type: string
-          description: Matrix user ID
-        displayname:
-          type: string
-        avatar_url:
-          type: string
-        is_guest:
-          type: boolean
-        deactivated:
-          type: boolean
-        erased:
-          type: boolean
-        shadow_banned:
-          type: boolean
-        admin:
-          type: boolean
-        creation_ts:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSummary'
+        next_token:
           type: integer
-          format: int64
-    Error:
-      type: object
-      properties:
-        errcode:
-          type: string
-          description: Matrix error code (e.g. M_FORBIDDEN, M_NOT_FOUND)
-        error:
-          type: string
-          description: Human-readable error description
+        total:
+          type: integer
     UserUpsert:
       type: object
       properties:
@@ -316,42 +320,38 @@ components:
             type: string
         total:
           type: integer
-    UserList:
+    Error:
       type: object
       properties:
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSummary'
-        next_token:
+        errcode:
+          type: string
+          description: Matrix error code (e.g. M_FORBIDDEN, M_NOT_FOUND)
+        error:
+          type: string
+          description: Human-readable error description
+    UserSummary:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Matrix user ID
+        displayname:
+          type: string
+        avatar_url:
+          type: string
+        is_guest:
+          type: boolean
+        deactivated:
+          type: boolean
+        erased:
+          type: boolean
+        shadow_banned:
+          type: boolean
+        admin:
+          type: boolean
+        creation_ts:
           type: integer
-        total:
-          type: integer
-  responses:
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized - missing or invalid access token
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden - requires server admin access
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+          format: int64
   securitySchemes:
     BearerAuth:
       type: http
