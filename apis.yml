@@ -217,6 +217,10 @@ apis:
   - type: GitHub
     url: https://github.com/matrix-org/synapse/tree/develop/docs/admin_api
 common:
+  - type: Plans
+    url: plans/synapse-plans-pricing.yml
+  - type: FinOps
+    url: finops/synapse-finops.yml
   - type: CapabilityMap
     url: capabilities/synapse-capability-edges.yml
     name: Synapse Business Capability Map
