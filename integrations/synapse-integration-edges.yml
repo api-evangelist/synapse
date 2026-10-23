@@ -1,0 +1,57 @@
+edges:
+- partner_name: Matrix.org ecosystem directory
+  partner: matrix
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://matrix.org/ecosystem/servers/
+  category: Matrix protocol ecosystem
+  contract_reference:
+    register: Matrix.org Foundation ecosystem directory (matrix.org/ecosystem)
+    standard: Matrix
+    spec_file: null
+    role: matrix-server
+    roles:
+    - matrix-server
+    registered_name: Element Creations Ltd.
+    register_id: https://matrix.org/ecosystem/servers/
+    matched_domain: null
+    matched_by: hand-verified
+    match_note: servers listing 'Synapse' (Element Creations Ltd.) points at github.com/element-hq/synapse, the
+      repository all/synapse records as deliveryModel.license_evidence.repo; 'Synapse' alone is ambiguous (synapse,
+      synapsefi)
+    listings:
+    - maturity: Stable
+      name: Synapse
+      obsolete: false
+      page: https://matrix.org/ecosystem/servers/
+      section: servers
+    all_obsolete: false
+    signal_note: 'participation only: a listing in the Foundation''s directory (it endorses nothing, certifies nothing).
+      Roles are context; listings are never counted'
+    detected_by: sweep-matrix-ecosystem.py
+    detected: '2026-10-23'
+  detected_by: sweep-matrix-ecosystem.py
+  first_seen: '2026-10-23'
+generated: '2026-10-23'
+method: searched
+source:
+- https://matrix.org/ecosystem/
+- https://matrix.org/ecosystem/hosting/
+- https://matrix.org/ecosystem/clients/
+- https://matrix.org/ecosystem/bridges/
+- https://matrix.org/ecosystem/sdks/
+- https://matrix.org/ecosystem/servers/
+- https://matrix.org/ecosystem/integrations/
+- https://matrix.org/ecosystem/distributions/
+checked:
+- https://matrix.org/ecosystem/
+- https://matrix.org/ecosystem/bridges/
+- https://matrix.org/ecosystem/clients/
+- https://matrix.org/ecosystem/distributions/
+- https://matrix.org/ecosystem/hosting/
+- https://matrix.org/ecosystem/integrations/
+- https://matrix.org/ecosystem/sdks/
+- https://matrix.org/ecosystem/servers/
